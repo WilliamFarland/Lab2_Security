@@ -5,6 +5,20 @@ UMass Amherst, ECE 371, Introduction to security Engineering
 RSA Implementation for Part1 of Lab 2
 Revisions by: William Farland 
 
+*** Some information that you should remember ***
+
+Technical steps for RSA:
+1. Select two large prime numbers, x and y. The prime numbers need to be large so that they will be difficult for someone 
+to figure out.
+
+2. Calculate n = x * y
+
+3. Calculate the totient function; ϕ(n)=(x−1)(y−1)
+
+4. Select an integer e, such that e is co-prime to ϕ(n) and 1 < e < ϕ(n) 
+The pair of numbers (n,e)(n,e) makes up the public key.
+
+
 What is RSA?
     -RSA is an asymmetric cryptography algorithm
     -RSA utilizes both a public and private key
@@ -22,6 +36,32 @@ How does RSA work?
     Step 2) Bob sends the encrypted cipher text to Alice
     Step 3) Alice decrypts the message using her private key
 
+What is the definition of coprime?
+    -Two numbers are considered coprime when they have no common factors other than 1
+    
+What is the totient function? 
+    -Euler's totient function (also called the Phi function) counts the number of positive 
+        integers less than n that are coprime to n. 
+    -Ex. Compute ϕ(15)
+    Factors of 15: 1, 3, 5, 15
+    Numbers less than 15: 1,2,3,4,5,6,7,8,9,10,11,12,13,14
+    1 --> coprime       c=1
+    2 --> coprime       c=2 
+    3 --> not coprime 
+    4 --> coprime       c=3 
+    5 --> not coprime 
+    6 --> not coprime       
+    7 --> coprime       c=4
+    8 --> coprime       c=5 
+    9 --> not coprime 
+    10 --> not coprime 
+    11 --> coprime      c=6 
+    12 --> not coprime
+    13 --> coprime      c=7
+    14 --> coprime      c=8
+    
+    Count of coprime #'s: 8
+    
 """
 
 # Part 1 - Bob wants to send Alice a confidential message
@@ -47,6 +87,7 @@ def get_d(e, z):
 
 
 def is_prime(num):
+    """ determines if provided input is a prime number or not """
     if num > 1:
         for i in range(2, num // 2):  # Iterate from 2 to n / 2
             # If num is divisible by any number between
@@ -65,7 +106,9 @@ def generate_keypair(p, q):
     elif p == q:
         raise ValueError('p and q cannot be equal')
 
-    # Enter code here
+    # Step 1
+    n = p * q
+    # Step 2 Calculate the totient function;  ϕ(n) = (x−1)(y−1)
 
     e = 0
     n = 0
