@@ -70,7 +70,7 @@ What is the totient function?
 # p & q need to be very large prime numbers
 # for the purposes of this lab you will get yous provided in the excel file
 # for now use the default p & q values in order to test your code
-p, q = 1297273, 1297651
+p, q = 1297169, 1297523
 
 
 def gcd(a, b):
@@ -122,18 +122,17 @@ def generate_keypair(p, q):
     # Step 2 Calculate the totient function;  ϕ(n) = (x−1)(y−1)
     ϕ = (p - 1) * (q - 1)
     e = largestCoprime(ϕ)
-    d = pow(ϕ, -1, e)
+    d = pow(e, -1, ϕ)
     # Now we need to find D
     # ed mod φ(n) = 1
     return (e, n), (d, n)
 
 
 def encrypt(pk, plaintext):
-    # Enter code here
     # plaintext is a single character
     # cipher is a decimal number which is the encrypted version of plaintext
     # the pow function is much faster in calculating power compared to the ** symbol !!!
-    cipher = 0
+    cipher = pow(int(plaintext), pk[0], pk[1])
     return cipher
 
 
@@ -141,15 +140,22 @@ def decrypt(pk, ciphertext):
     # Enter code here
     # ciphertext is a single decimal number
     # the returned value is a character that is the decryption of ciphertext
-    plain = 'a'
-    return ''.join(plain)
+    plain = pow(int(ciphertext), pk[0], pk[1])
+    return plain
 
 
+"""
 def main():
     public, private = generate_keypair(p, q)
     print("RSA Public Key pair = \t" + str(public))
     print("RSA Private Key pair = \t" + str(private))
+    plaintext = input("Enter a plaintext: ")
+    ciphertext = encrypt(public, plaintext)
+    print("Encrypted = \t" + str(ciphertext))
+    plaintext = decrypt(private, ciphertext)
+    print("Decrypted = \t" + str(plaintext))
 
 
 if __name__ == "__main__":
     main()
+"""
