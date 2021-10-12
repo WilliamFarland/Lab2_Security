@@ -1,3 +1,4 @@
+import math as mt
 import random
 
 """
@@ -79,13 +80,6 @@ def gcd(a, b):
     return a
 
 
-def get_d(e, z):
-    """ uses extended euclidean algorithm to get the d value """
-    # Enter code here
-    d = 0
-    return d
-
-
 def is_prime(num):
     """ determines if provided input is a prime number or not """
     if num > 1:
@@ -100,6 +94,23 @@ def is_prime(num):
         return False
 
 
+def coPrime(n1, n2):
+    # two numbers are coprime if their gcd is 1
+    if gcd(n1, n2) == 1:
+        return True
+    else:
+        return False
+
+
+def largestCoprime(N):
+    half = mt.floor(N / 2)
+    # Check one by one a numbers
+    # less than or equal to N/2
+    while not coPrime(N, half):
+        half -= 1
+    return half
+
+
 def generate_keypair(p, q):
     if not (is_prime(p) and is_prime(q)):
         raise ValueError('Both numbers must be prime.')
@@ -109,10 +120,11 @@ def generate_keypair(p, q):
     # Step 1
     n = p * q
     # Step 2 Calculate the totient function;  ϕ(n) = (x−1)(y−1)
-
-    e = 0
-    n = 0
-    d = 0
+    ϕ = (p - 1) * (q - 1)
+    e = largestCoprime(ϕ)
+    d = pow(ϕ, -1, e)
+    # Now we need to find D
+    # ed mod φ(n) = 1
     return (e, n), (d, n)
 
 
@@ -135,5 +147,9 @@ def decrypt(pk, ciphertext):
 
 def main():
     public, private = generate_keypair(p, q)
-    print("RSA Public Key pair = " + str(public))
-    print("RSA Private Key pair = " + str(private))
+    print("RSA Public Key pair = \t" + str(public))
+    print("RSA Private Key pair = \t" + str(private))
+
+
+if __name__ == "__main__":
+    main()
